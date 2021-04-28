@@ -1,14 +1,15 @@
 import {FilterValueType, TodoListType} from "../App";
 import {v1} from "uuid";
 
-type RemoveTodoListAT = {
+export type RemoveTodoListAT = {
     type: 'REMOVE-TODOLIST'
     todoListID: string
 }
 
-type AddTodoListAT = {
+export type AddTodoListAT = {
     type: 'ADD-TODOLIST'
     title: string
+    todoListID: string
 }
 
 type ChangeTodoListTitleAT = {
@@ -30,9 +31,8 @@ export const todoListReducer = (todoLists: Array<TodoListType>, action: ActionsT
         case "REMOVE-TODOLIST":
             return todoLists.filter(tl => tl.id !== action.todoListID)
         case "ADD-TODOLIST":
-            const newTodoListID = v1()
             const newTodoList: TodoListType = {
-                id: newTodoListID, title: action.title, filter: 'all'
+                id: action.todoListID, title: action.title, filter: 'all'
             }
 
             return [...todoLists, newTodoList]
@@ -45,21 +45,22 @@ export const todoListReducer = (todoLists: Array<TodoListType>, action: ActionsT
     }
 }
 
-export const RemoveTodoListAC = (todoListID: string): RemoveTodoListAT => {
+export const removeTodoListAC = (todoListID: string): RemoveTodoListAT => {
     return {
         type: 'REMOVE-TODOLIST',
         todoListID
     }
 }
 
-export const AddTodoListAC = (title: string): AddTodoListAT => {
+export const addTodoListAC = (title: string): AddTodoListAT => {
     return {
         type: 'ADD-TODOLIST',
-        title
+        title,
+        todoListID: v1()
     }
 }
 
-export const ChangeTodoListTitleAC = (title: string, todoListID: string): ChangeTodoListTitleAT => {
+export const changeTodoListTitleAC = (title: string, todoListID: string): ChangeTodoListTitleAT => {
     return {
         type: 'CHANGE-TODOLIST-TITLE',
         title,
@@ -67,7 +68,7 @@ export const ChangeTodoListTitleAC = (title: string, todoListID: string): Change
     }
 }
 
-export const ChangeTodoListАFilterAC = (newFilterValue: FilterValueType, todoListID: string): ChangeTodoListАFilterAT => {
+export const changeTodoListАFilterAC = (newFilterValue: FilterValueType, todoListID: string): ChangeTodoListАFilterAT => {
     return {
         type: 'CHANGE-TODOLIST-FILTER',
         newFilterValue,
