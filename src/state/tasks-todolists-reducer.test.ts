@@ -1,6 +1,6 @@
-import {TasksStateType, TodoListType} from "../App";
 import {tasksReducer} from "./tasks-reducer";
 import {addTodoListAC, todoListReducer} from "./todolists-reducer";
+import {TasksStateType, TodoListType} from "../AppWithRedux";
 
 test('new array should be added when new todolist is added', () => {
     const startState: TasksStateType = {
@@ -47,6 +47,6 @@ test('ids should be equals', () => {
 
     expect(idFromTasks).toBe(action.todoListID);
     expect(idFromTodolists).toBe(action.todoListID);
-});
+})
 
 
